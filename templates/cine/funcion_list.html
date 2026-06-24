@@ -7,13 +7,15 @@
 <ul class="list-group">
     {% for f in object_list %}
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        {{ f.pelicula.titulo }} - {{ f.sala }} | {{ f.fecha_hora|date:"d/m/Y H:i" }} | ${{ f.precio }}
-        {% if perms.cine.change_funcion %}
+        <span>{{ f.pelicula.titulo }} - {{ f.sala }} | {{ f.fecha_hora|date:"d/m/Y H:i" }} | ${{ f.precio }}</span>
         <div>
-            <a href="{% url 'funcion_update' f.id %}" class="btn btn-sm btn-warning">Editar</a>
-            <a href="{% url 'funcion_delete' f.id %}" class="btn btn-sm btn-danger">Borrar</a>
+            <a href="{% url 'reservar_butacas' f.id %}" class="btn btn-sm btn-success">Reservar Asientos</a>
+            
+            {% if perms.cine.change_funcion %}
+            <a href="{% url 'funcion_update' f.id %}" class="btn btn-sm btn-warning ms-1">Editar</a>
+            <a href="{% url 'funcion_delete' f.id %}" class="btn btn-sm btn-danger ms-1">Borrar</a>
+            {% endif %}
         </div>
-        {% endif %}
     </li>
     {% endfor %}
 </ul>

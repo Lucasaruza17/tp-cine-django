@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+import json
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
-from .models import Pelicula, Funcion
+from .models import Pelicula, Funcion, Ticket
 from .forms import CustomUserCreationForm
 
 def registro(request):
@@ -68,3 +70,29 @@ class FuncionDelete(PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy('funcion_list')
     permission_required = 'cine.delete_funcion'
 
+@login_required
+def reservar_butacas(request, funcion_id):
+    funcion = get_object_or_404(Funcion, id=funcion_id)
+    tickets_vendidos = Ticket.objects.filter(funcion=funcion)
+    
+    ocupados = []
+    for t in tickets_vendidos:
+        if t.asientos:
+            ocupados.extend(t.asientos.split(','))
+            
+    if request.method == 'POST':
+        asientos_seleccionados = request.POST.get('asientos_input')
+        if asientos_seleccionados:
+            lista_asientos = asientos_seleccionados.split(',')
+            Ticket.objects.create(
+                usuario=request.user,
+                funcion=funcion,
+                asientos=asientos_seleccionados,
+                cantidad=len(lista_asientos)
+            )
+            return redirect('home')
+
+    return render(request, 'cine/reserva.html', {
+        'funcion': funcion,
+        'ocupados': json.dumps(ocupados)
+    })

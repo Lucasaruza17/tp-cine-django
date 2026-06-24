@@ -39,9 +39,9 @@ class Funcion(models.Model):
 class Ticket(models.Model):
     usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     funcion = models.ForeignKey(Funcion, on_delete=models.CASCADE)
+    asientos = models.CharField(max_length=255, default="")
     cantidad = models.IntegerField()
     fecha_compra = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Ticket {self.id} - {self.usuario.username}"
-
+        return f"Ticket {self.id} - {self.usuario.username} - Asientos: {self.asientos}"

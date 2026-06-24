@@ -12,4 +12,5 @@ urlpatterns = [
     path('funciones/nueva/', views.FuncionCreate.as_view(), name='funcion_create'),
     path('funciones/<int:pk>/editar/', views.FuncionUpdate.as_view(), name='funcion_update'),
     path('funciones/<int:pk>/eliminar/', views.FuncionDelete.as_view(), name='funcion_delete'),
+    path('funciones/<int:funcion_id>/reservar/', views.reservar_butacas, name='reservar_butacas'),
 ]

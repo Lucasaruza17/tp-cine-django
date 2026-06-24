@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .pantalla { background: #333; color: white; text-align: center; padding: 10px; margin-bottom: 30px; border-radius: 5px; letter-spacing: 5px; }
+    .sala-grid { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .fila { display: flex; gap: 10px; }
+    .butaca { width: 40px; height: 40px; background: #28a745; color: white; display: flex; align-items: center; justify-content: center; border-radius: 5px; cursor: pointer; font-size: 12px; user-select: none; }
+    .butaca.ocupada { background: #dc3545; cursor: not-allowed; }
+    .butaca.seleccionada { background: #ffc107; color: black; border: 2px solid #333; }
+</style>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <h2 class="text-center mb-4">Reserva para {{ funcion.pelicula.titulo }}</h2>
+        <p class="text-center">{{ funcion.fecha_hora|date:"d/m/Y H:i" }} | Precio por ticket: ${{ funcion.precio }}</p>
+
+        <div class="pantalla">PANTALLA</div>
+        
+        <div class="sala-grid" id="sala-grid">
+            </div>
+
+        <div class="d-flex justify-content-center mt-4 gap-3">
+            <div><span class="badge bg-success">&nbsp;</span> Disponible</div>
+            <div><span class="badge bg-danger">&nbsp;</span> Ocupada</div>
+            <div><span class="badge bg-warning text-dark">&nbsp;</span> Tu seleccion</div>
+        </div>
+
+        <form method="post" class="mt-4 text-center">
+            {% csrf_token %}
+            <input type="hidden" name="asientos_input" id="asientos_input" required>
+            <p class="fs-4">Total a pagar: $<span id="precio_total">0</span></p>
+            <button type="submit" class="btn btn-lg btn-primary" id="btn-comprar" disabled>Confirmar Compra</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const ocupados = JSON.parse('{{ ocupados|safe }}');
+    const precioUnitario = parseFloat("{{ funcion.precio }}".replace(',','.'));
+    const salaGrid = document.getElementById('sala-grid');
+    const asientosInput = document.getElementById('asientos_input');
+    const precioTotalEl = document.getElementById('precio_total');
+    const btnComprar = document.getElementById('btn-comprar');
+    
+    const filas = ['A', 'B', 'C', 'D', 'E'];
+    const columnas = 10;
+    let seleccionados = [];
+
+    // Generar la cuadricula
+    filas.forEach(letra => {
+        const divFila = document.createElement('div');
+        divFila.className = 'fila';
+        
+        for (let i = 1; i <= columnas; i++) {
+            const idButaca = letra + i;
+            const butaca = document.createElement('div');
+            butaca.className = 'butaca';
+            butaca.innerText = idButaca;
+            butaca.dataset.id = idButaca;
+
+            if (ocupados.includes(idButaca)) {
+                butaca.classList.add('ocupada');
+            } else {
+                butaca.addEventListener('click', () => toggleSeleccion(butaca, idButaca));
+            }
+            divFila.appendChild(butaca);
+        }
+        salaGrid.appendChild(divFila);
+    });
+
+    function toggleSeleccion(elemento, id) {
+        if (elemento.classList.contains('seleccionada')) {
+            elemento.classList.remove('seleccionada');
+            seleccionados = seleccionados.filter(item => item !== id);
+        } else {
+            elemento.classList.add('seleccionada');
+            seleccionados.push(id);
+        }
+        
+        // Actualizar formulario y total
+        asientosInput.value = seleccionados.join(',');
+        precioTotalEl.innerText = (seleccionados.length * precioUnitario).toFixed(2);
+        btnComprar.disabled = seleccionados.length === 0;
+    }
+</script>
+{% endblock %}
