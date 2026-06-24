@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Peliculas</h2>
+{% if perms.cine.add_pelicula %}
+<a href="{% url 'pelicula_create' %}" class="btn btn-primary mb-3">Nueva Pelicula</a>
+{% endif %}
+<div class="row">
+    {% for p in object_list %}
+    <div class="col-md-3">
+        <div class="card mb-4">
+            {% if p.portada %}
+            <img src="{{ p.portada.url }}" class="card-img-top" style="max-height: 350px; object-fit: cover;">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ p.titulo }}</h5>
+                <p>{{ p.genero }} - {{ p.duracion_minutos }} min</p>
+                {% if perms.cine.change_pelicula %}
+                <a href="{% url 'pelicula_update' p.id %}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="{% url 'pelicula_delete' p.id %}" class="btn btn-sm btn-danger">Borrar</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
