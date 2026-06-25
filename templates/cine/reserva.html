@@ -1,13 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<style>
-    .pantalla { background: #333; color: white; text-align: center; padding: 10px; margin-bottom: 30px; border-radius: 5px; letter-spacing: 5px; }
-    .sala-grid { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-    .fila { display: flex; gap: 10px; }
-    .butaca { width: 40px; height: 40px; background: #28a745; color: white; display: flex; align-items: center; justify-content: center; border-radius: 5px; cursor: pointer; font-size: 12px; user-select: none; }
-    .butaca.ocupada { background: #dc3545; cursor: not-allowed; }
-    .butaca.seleccionada { background: #ffc107; color: black; border: 2px solid #333; }
-</style>
+
 
 <div class="row">
     <div class="col-md-8 mx-auto">
@@ -46,7 +39,6 @@
     const columnas = 10;
     let seleccionados = [];
 
-    // Generar la cuadricula
     filas.forEach(letra => {
         const divFila = document.createElement('div');
         divFila.className = 'fila';
@@ -77,7 +69,6 @@
             seleccionados.push(id);
         }
         
-        // Actualizar formulario y total
         asientosInput.value = seleccionados.join(',');
         precioTotalEl.innerText = (seleccionados.length * precioUnitario).toFixed(2);
         btnComprar.disabled = seleccionados.length === 0;

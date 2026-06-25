@@ -1,0 +1,151 @@
+:root {
+    --bg-dark: #0f0f11;
+    --card-bg: #1a1a1f;
+    --accent: #e50914;
+    --text-main: #f5f5f1;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+    background-color: rgba(15, 15, 17, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #333;
+}
+.navbar-brand {
+    font-weight: 800;
+    color: var(--accent) !important;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.nav-link {
+    font-weight: 500;
+    color: #bbb !important;
+    transition: color 0.3s;
+}
+.nav-link:hover {
+    color: var(--accent) !important;
+}
+
+.btn-primary {
+    background-color: var(--accent);
+    border-color: var(--accent);
+}
+.btn-primary:hover {
+    background-color: #b80710;
+    border-color: #b80710;
+}
+
+/* Modificacion aplicada aca */
+.card {
+    background-color: var(--card-bg);
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: white !important; 
+}
+
+/* Forzando el blanco en los textos de la tarjeta */
+.card .card-title, 
+.card .card-text {
+    color: white !important;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(229, 9, 20, 0.15);
+}
+
+input, select, textarea {
+    background-color: #222 !important;
+    border: 1px solid #444 !important;
+    color: white !important;
+    border-radius: 6px;
+    padding: 8px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+input:focus { 
+    border-color: var(--accent) !important; 
+    outline: none; 
+    box-shadow: none !important;
+}
+
+footer {
+    border-top: 1px solid #222;
+    padding-top: 20px;
+    color: #666;
+}
+
+.pantalla-container { 
+    perspective: 800px; 
+    margin-bottom: 60px; 
+}
+.pantalla { 
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    color: white; 
+    text-align: center; 
+    padding: 20px; 
+    border-radius: 4px; 
+    letter-spacing: 15px;
+    font-weight: 900;
+    transform: rotateX(-20deg);
+    box-shadow: 0 15px 50px rgba(229, 9, 20, 0.3);
+    border-top: 3px solid #fff;
+}
+.sala-grid { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 15px; 
+}
+.fila { 
+    display: flex; 
+    gap: 15px; 
+}
+.butaca { 
+    width: 45px; 
+    height: 45px; 
+    background: #333; 
+    color: #888; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    border-radius: 10px 10px 4px 4px; 
+    cursor: pointer; 
+    font-size: 12px; 
+    font-weight: bold; 
+    user-select: none; 
+    transition: all 0.2s; 
+    border-bottom: 5px solid #111;
+}
+.butaca:hover:not(.ocupada) { 
+    background: #555; 
+    transform: translateY(-3px); 
+}
+.butaca.ocupada { 
+    background: #151515; 
+    color: #222; 
+    cursor: not-allowed; 
+    border-bottom: 5px solid #0a0a0a; 
+}
+.butaca.seleccionada { 
+    background: var(--accent); 
+    color: white; 
+    border-bottom: 5px solid #99050d; 
+    transform: scale(1.1); 
+    box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4); 
+}
+.leyenda-dot { 
+    width: 18px; 
+    height: 18px; 
+    display: inline-block; 
+    border-radius: 4px; 
+    margin-right: 8px; 
+    vertical-align: middle;
+}
