@@ -1,6 +1,6 @@
-# Chinópolis - Sistema de Gestión de Cine
+# Chinopolis - Sistema de Gestión de Cine
 
-¡Bienvenido a **Chinópolis**! Un sistema web desarrollado con **Django** que permite administrar la cartelera de un cine, gestionar funciones y realizar la reserva de asientos de manera sencilla e intuitiva.
+¡Bienvenido a **Chinopolis**! Un sistema web desarrollado con **Django** que permite administrar la cartelera de un cine, gestionar funciones y realizar la reserva de asientos de manera sencilla e intuitiva.
 
 La aplicación maneja los siguientes aspectos:
 
